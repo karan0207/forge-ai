@@ -38,8 +38,8 @@ const subjectColors = [
 
 export const ComparisonTable = React.forwardRef<HTMLDivElement, ComparisonTableProps>(
   ({ title = "Comparison", subjects = [], criteria = [], className }, ref) => {
-    const safeSubjects = subjects ?? [];
-    const safeCriteria = criteria ?? [];
+    const safeSubjects = Array.isArray(subjects) ? subjects : [];
+    const safeCriteria = Array.isArray(criteria) ? criteria : [];
 
     /* Empty / loading state */
     if (!safeSubjects.length || !safeCriteria.length) {
@@ -152,7 +152,7 @@ export const ComparisonTable = React.forwardRef<HTMLDivElement, ComparisonTableP
                     <td className="px-4 py-3.5 font-medium text-zinc-400 group-hover:text-zinc-200 transition-colors">
                       {row.label}
                     </td>
-                    {row.values.map((val, j) => (
+                    {(Array.isArray(row.values) ? row.values : []).map((val, j) => (
                       <td key={j} className="px-4 py-3.5 text-zinc-300 border-l border-white/4 leading-relaxed">
                         {val}
                       </td>
@@ -179,7 +179,7 @@ export const ComparisonTable = React.forwardRef<HTMLDivElement, ComparisonTableP
                   </h4>
                 </div>
                 <div className="grid grid-cols-2 divide-x divide-white/5">
-                  {row.values.map((val, j) => {
+                  {(Array.isArray(row.values) ? row.values : []).map((val, j) => {
                     const colorSet = subjectColors[j % subjectColors.length];
                     return (
                       <div key={j} className="px-4 py-3 space-y-1">

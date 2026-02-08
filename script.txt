@@ -1,0 +1,16 @@
+Hey everyone, I am Karan. This is ForgeAI, my hackathon project that turns a plain language study request into the right learning UI automatically.
+
+ForgeAI does not show one generic chat panel. It chooses between multiple StudyForge components like lessons, quizzes, flashcards, comparisons, explainers, and study plans so the experience feels like a real learning app.
+
+The stack is Next.js App Router, React 18, Tailwind CSS, and Tambo. The architecture is simple:
+- UI components live in src/components/studyforge
+- Tambo registers them in src/lib/tambo.ts
+- The chat thread renders the selected component next to the assistant message
+
+Now I will show the product. On the landing page, you can see the component gallery. I open the chat and type: Explain the French Revolution and quiz me. ForgeAI selects the explainer card and the quiz card automatically. The UI is clean and flat so it stays readable and professional.
+
+If I ask for flashcards or a study plan, it switches to those components without me choosing anything. This is the point: the system picks the right UI for the request.
+
+There is also a How it works page that explains the pipeline and the hackathon build. Tambo handles routing and schema driven props so every component stays consistent.
+
+This project helped me learn how to structure AI outputs into reusable UI instead of raw text. Thanks for watching.

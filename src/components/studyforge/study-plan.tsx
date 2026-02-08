@@ -61,7 +61,7 @@ const priorityConfig = {
 
 export const StudyPlan = React.forwardRef<HTMLDivElement, StudyPlanProps>(
   ({ title = "Study Plan", examDate = "", days = [], className }, ref) => {
-    const safeDays = days ?? [];
+    const safeDays = Array.isArray(days) ? days : [];
     const totalHours = safeDays.reduce((sum, d) => sum + (d.hours || 0), 0);
 
     /* Loading state */
@@ -173,7 +173,7 @@ export const StudyPlan = React.forwardRef<HTMLDivElement, StudyPlanProps>(
 
                       {/* Topics */}
                       <div className="px-4 py-3 space-y-2">
-                        {day.topics.map((topic, j) => (
+                        {(Array.isArray(day.topics) ? day.topics : []).map((topic, j) => (
                           <div key={j} className="flex items-start gap-2.5 text-[14px] text-zinc-300">
                             <ArrowRight className="w-3.5 h-3.5 text-orange-400/60 mt-1 shrink-0" />
                             <span className="leading-relaxed">{topic}</span>

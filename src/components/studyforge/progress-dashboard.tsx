@@ -313,12 +313,14 @@ export const ProgressDashboard = forwardRef<
       "overview" | "topics" | "activity"
     >("overview");
 
-    const sortedTopics = useMemo(
-      () =>
-        topics
-          ? [...topics].sort((a, b) => b.mastery - a.mastery)
-          : [],
+    const safeTopics = useMemo(
+      () => (Array.isArray(topics) ? topics : []),
       [topics]
+    );
+
+    const sortedTopics = useMemo(
+      () => [...safeTopics].sort((a, b) => b.mastery - a.mastery),
+      [safeTopics]
     );
 
     const averageMastery = useMemo(() => {
@@ -333,20 +335,25 @@ export const ProgressDashboard = forwardRef<
       [sortedTopics]
     );
 
+    const safeRecentActivity = useMemo(
+      () => (Array.isArray(recentActivity) ? recentActivity : []),
+      [recentActivity]
+    );
+
     const activityGraphData = useMemo(() => {
-      if (!recentActivity || recentActivity.length === 0) return null;
+      if (safeRecentActivity.length === 0) return null;
       return {
         type: "line" as const,
-        labels: recentActivity.map((entry) => entry.date),
+        labels: safeRecentActivity.map((entry) => entry.date),
         datasets: [
           {
             label: "Score",
-            data: recentActivity.map((entry) => entry.score),
+            data: safeRecentActivity.map((entry) => entry.score),
             color: "hsl(24, 94%, 55%)",
           },
         ],
       };
-    }, [recentActivity]);
+    }, [safeRecentActivity]);
 
     const tabItems = [
       { id: "overview" as const, label: "Overview", icon: BarChart3 },
@@ -608,9 +615,9 @@ export const ProgressDashboard = forwardRef<
                       Score Trend
                     </span>
                   </div>
-                  {recentActivity && (
+                  {safeRecentActivity.length > 0 && (
                     <span className="text-xs text-white/30">
-                      {recentActivity.length} sessions
+                      {safeRecentActivity.length} sessions
                     </span>
                   )}
                 </div>
@@ -636,13 +643,13 @@ export const ProgressDashboard = forwardRef<
                 )}
 
                 {/* Recent Activity List */}
-                {recentActivity && recentActivity.length > 0 && (
+                {safeRecentActivity.length > 0 && (
                   <div className="space-y-1.5">
                     <p className="text-[11px] font-medium tracking-wider text-white/30 uppercase">
                       Recent Sessions
                     </p>
                     <div className="space-y-1">
-                      {recentActivity.slice(-5).reverse().map((a, i) => {
+                      {safeRecentActivity.slice(-5).reverse().map((a, i) => {
                         const scoreColor = getMasteryColor(a.score);
                         return (
                           <motion.div

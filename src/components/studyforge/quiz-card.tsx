@@ -40,7 +40,7 @@ export const QuizCard = React.forwardRef<HTMLDivElement, QuizCardProps>(
     const [finished, setFinished] = React.useState(false);
     const [progressTracked, setProgressTracked] = React.useState(false);
 
-    const safeQuestions = questions ?? [];
+    const safeQuestions = Array.isArray(questions) ? questions : [];
     const q = safeQuestions[currentQuestion];
     const isCorrect = selectedAnswer === q?.correctIndex;
     const total = safeQuestions.length;
@@ -259,7 +259,12 @@ export const QuizCard = React.forwardRef<HTMLDivElement, QuizCardProps>(
 
                   {/* Options */}
                   <div className="space-y-2.5">
-                    {q.options.map((option, i) => {
+                    {(Array.isArray(q.options) ? q.options : []).length === 0 && (
+                      <div className="rounded-xl border border-white/8 bg-white/3 px-4 py-3 text-sm text-zinc-400">
+                        Options are still loading.
+                      </div>
+                    )}
+                    {(Array.isArray(q.options) ? q.options : []).map((option, i) => {
                       const isSelected = i === selectedAnswer;
                       const isAnswer = i === q.correctIndex;
                       const letterLabel = String.fromCharCode(65 + i);

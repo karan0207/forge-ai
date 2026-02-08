@@ -28,7 +28,7 @@ export const FlashcardDeck = React.forwardRef<HTMLDivElement, FlashcardDeckProps
     const [isFlipped, setIsFlipped] = React.useState(false);
     const [finished, setFinished] = React.useState(false);
 
-    const safeCards = cards ?? [];
+    const safeCards = Array.isArray(cards) ? cards : [];
     const total = safeCards.length;
     const card = safeCards[currentCard];
 

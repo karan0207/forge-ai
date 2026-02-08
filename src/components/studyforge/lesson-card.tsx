@@ -63,7 +63,7 @@ export const LessonCard = React.forwardRef<HTMLDivElement, LessonCardProps>(
     ref
   ) => {
     const diff = difficultyConfig[difficulty ?? "beginner"];
-    const safeKeyPoints = keyPoints ?? [];
+    const safeKeyPoints = Array.isArray(keyPoints) ? keyPoints : [];
 
     return (
       <motion.div
