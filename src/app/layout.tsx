@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ForgeAI — AI Adaptive Learning Companion",
+  title: "ForgeAI ",
   description:
     "ForgeAI is your AI learning companion that adapts to you. Lessons, quizzes, flashcards, comparisons, and study plans - all from a single conversation.",
 };
